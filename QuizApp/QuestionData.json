@@ -1,0 +1,14 @@
+[
+	{
+		"question" : "What's the syntax for declaring new variable?",
+		"answers" : ["var", "let", "v"],
+		"correctAnswerIndex" : 0,
+		"feedback" : "var is the right answer just because)"
+	},
+	{
+		"question" : "What's the syntax for declaring new constant?",
+		"answers" : ["c", "let", "con"],
+		"correctAnswerIndex" : 1,
+		"feedback" : "let is the right answer just because)"
+	}
+]
