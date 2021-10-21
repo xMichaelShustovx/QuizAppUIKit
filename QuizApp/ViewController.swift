@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, QuizProtocol, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController, QuizProtocol, UITableViewDataSource, UITableViewDelegate, ResultViewControllerProtocol {
 
     @IBOutlet weak var questionLabel: UILabel!
     
@@ -17,9 +17,21 @@ class ViewController: UIViewController, QuizProtocol, UITableViewDataSource, UIT
     var questions = [Question]()
     var currentQuestionIndex = 0
     var numCorrect = 0
+    
+    var resultDialog: ResultViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Initialize the result dialog
+        resultDialog = storyboard?.instantiateViewController(identifier: "ResultVC") as? ResultViewController
+        
+        
+        // Model presentation style
+        resultDialog?.modalPresentationStyle = .overCurrentContext
+        
+        // Set VC as the delegate of the result view controller
+        resultDialog?.delegate = self
         
         // Set self as the data source and delegate of the table view
         tableView.dataSource = self
@@ -100,23 +112,71 @@ class ViewController: UIViewController, QuizProtocol, UITableViewDataSource, UIT
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        let question = questions[currentQuestionIndex]
+        
+        var titleText = ""
+        
         // User has tapped on the row, check if it's a right answer
-        if indexPath.row == questions[currentQuestionIndex].correctAnswerIndex {
+        if indexPath.row == question.correctAnswerIndex {
             
             // User got it right
-            
+            titleText = "Correct!"
+            numCorrect += 1
         }
         else {
             // User got it wrong
-            
+            titleText = "Wrong!"
         }
+        
+        // Show the popup
+        if resultDialog != nil {
+            
+            // Set label text and present the popup
+            resultDialog!.titleText = titleText
+            resultDialog!.feedbackText = question.feedback!
+            resultDialog!.buttonText = "Next"
+            
+            present(resultDialog!, animated: true, completion: nil)
+        }
+    }
+    
+    // MARK: - ResultViewController delegate methods
+    
+    func dialogDismissed() {
         
         // Increment the current question index
         currentQuestionIndex += 1
         
-        // Display the next question
-        displayQuestion()
-        
+        if currentQuestionIndex == questions.count {
+            
+            // The user just answered the last question
+            // Show a summary dialog
+            // Show the popup
+            if resultDialog != nil {
+                
+                // Set label text and present the popup
+                resultDialog!.titleText = "Summary"
+                resultDialog!.feedbackText = "The number of right questions \(numCorrect) of \(questions.count)"
+                resultDialog!.buttonText = "Restart"
+                
+                present(resultDialog!, animated: true, completion: nil)
+            }
+            
+        }
+        else if currentQuestionIndex < questions.count {
+            
+            // Display the next question
+            displayQuestion()
+            
+        }
+        else {
+            
+            // Restart
+            numCorrect = 0
+            currentQuestionIndex = 0
+            displayQuestion()
+            
+        }
     }
 }
 
