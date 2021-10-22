@@ -16,6 +16,7 @@
 		52275992271F48110009B2BE /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52275991271F48110009B2BE /* Question.swift */; };
 		52275994271F48F20009B2BE /* QuizModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52275993271F48F20009B2BE /* QuizModel.swift */; };
 		526EB478271FE8B200D6319C /* QuestionData.json in Resources */ = {isa = PBXBuildFile; fileRef = 526EB477271FE8B200D6319C /* QuestionData.json */; };
+		5277F7252723282800BA3412 /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5277F7242723282800BA3412 /* StateManager.swift */; };
 		52C0E4252721600500556B91 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C0E4242721600500556B91 /* ResultViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 		52275991271F48110009B2BE /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		52275993271F48F20009B2BE /* QuizModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizModel.swift; sourceTree = "<group>"; };
 		526EB477271FE8B200D6319C /* QuestionData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = QuestionData.json; sourceTree = "<group>"; };
+		5277F7242723282800BA3412 /* StateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateManager.swift; sourceTree = "<group>"; };
 		52C0E4242721600500556B91 /* ResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,6 +70,7 @@
 				5227597F271F47E00009B2BE /* SceneDelegate.swift */,
 				52275981271F47E00009B2BE /* ViewController.swift */,
 				52C0E4242721600500556B91 /* ResultViewController.swift */,
+				5277F7242723282800BA3412 /* StateManager.swift */,
 				52275993271F48F20009B2BE /* QuizModel.swift */,
 				52275991271F48110009B2BE /* Question.swift */,
 				52275983271F47E00009B2BE /* Main.storyboard */,
@@ -153,6 +156,7 @@
 				52275982271F47E00009B2BE /* ViewController.swift in Sources */,
 				52275992271F48110009B2BE /* Question.swift in Sources */,
 				5227597E271F47E00009B2BE /* AppDelegate.swift in Sources */,
+				5277F7252723282800BA3412 /* StateManager.swift in Sources */,
 				52275980271F47E00009B2BE /* SceneDelegate.swift in Sources */,
 				52275994271F48F20009B2BE /* QuizModel.swift in Sources */,
 				52C0E4252721600500556B91 /* ResultViewController.swift in Sources */,

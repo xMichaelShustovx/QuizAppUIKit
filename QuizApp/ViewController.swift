@@ -68,6 +68,22 @@ class ViewController: UIViewController, QuizProtocol, UITableViewDataSource, UIT
         // Get a reference to the questions
         self.questions = questions
         
+        // Check if we should restore the state, before showing first question
+        let savedIndex = StateManager.retrieveValue(key: StateManager.questionIndexKey) as? Int
+
+        if savedIndex != nil && savedIndex! < self.questions.count {
+            
+            currentQuestionIndex = savedIndex!
+            
+            // Retrieve the number correct
+            // Check for the number of right answers saved
+            let correctAnswers = StateManager.retrieveValue(key: StateManager.numCorrectKey) as? Int
+            
+            if correctAnswers != nil {
+                numCorrect = correctAnswers!
+            }
+        }
+
         // Display the first question
         displayQuestion()
 
@@ -136,7 +152,9 @@ class ViewController: UIViewController, QuizProtocol, UITableViewDataSource, UIT
             resultDialog!.feedbackText = question.feedback!
             resultDialog!.buttonText = "Next"
             
-            present(resultDialog!, animated: true, completion: nil)
+            DispatchQueue.main.async {
+                self.present(self.resultDialog!, animated: true, completion: nil)
+            }
         }
     }
     
@@ -160,6 +178,9 @@ class ViewController: UIViewController, QuizProtocol, UITableViewDataSource, UIT
                 resultDialog!.buttonText = "Restart"
                 
                 present(resultDialog!, animated: true, completion: nil)
+                
+                // Clear state
+                StateManager.clearState()
             }
             
         }
@@ -167,6 +188,9 @@ class ViewController: UIViewController, QuizProtocol, UITableViewDataSource, UIT
             
             // Display the next question
             displayQuestion()
+            
+            // Save state
+            StateManager.saveState(numCorrect: numCorrect, questionIndex: currentQuestionIndex)
             
         }
         else {
