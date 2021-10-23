@@ -13,6 +13,12 @@ class ViewController: UIViewController, QuizProtocol, UITableViewDataSource, UIT
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var stackViewLeadingConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var stackViewTrailingConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var rootStackView: UIStackView!
+    
     let model = QuizModel()
     var questions = [Question]()
     var currentQuestionIndex = 0
@@ -46,6 +52,44 @@ class ViewController: UIViewController, QuizProtocol, UITableViewDataSource, UIT
         model.getQuestions()
     }
     
+    func slideInQuestion() {
+        
+        // Set the initial state
+        stackViewLeadingConstraint.constant = 1000
+        stackViewTrailingConstraint.constant = -1000
+        rootStackView.alpha = 0
+        view.layoutIfNeeded()
+        
+        // Animate it to the end state
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+            
+            self.stackViewLeadingConstraint.constant = 0
+            self.stackViewTrailingConstraint.constant = 0
+            self.rootStackView.alpha = 1
+            self.view.layoutIfNeeded()
+            
+        }, completion: nil)
+    }
+    
+    func slideOutQuestion() {
+        
+        // Set the initial state
+        stackViewLeadingConstraint.constant = 0
+        stackViewTrailingConstraint.constant = 0
+        rootStackView.alpha = 1
+        view.layoutIfNeeded()
+        
+        // Animate it to the end state
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+            
+            self.stackViewLeadingConstraint.constant = -1000
+            self.stackViewTrailingConstraint.constant = 1000
+            self.rootStackView.alpha = 0
+            self.view.layoutIfNeeded()
+            
+        }, completion: nil)
+    }
+    
     func displayQuestion() {
         
         // Check if there are questions and check that the currentQuestionIndex is not out of bounds
@@ -59,6 +103,9 @@ class ViewController: UIViewController, QuizProtocol, UITableViewDataSource, UIT
         
         // Reload the table view
         tableView.reloadData()
+        
+        // Slide in the question
+        slideInQuestion()
     }
     
     // MARK: - QuizProtocol Methods
@@ -144,6 +191,11 @@ class ViewController: UIViewController, QuizProtocol, UITableViewDataSource, UIT
             titleText = "Wrong!"
         }
         
+        // Slide out the question
+        DispatchQueue.main.async {
+            self.slideOutQuestion()
+        }
+        
         // Show the popup
         if resultDialog != nil {
             
@@ -188,7 +240,7 @@ class ViewController: UIViewController, QuizProtocol, UITableViewDataSource, UIT
             
             // Display the next question
             displayQuestion()
-            
+
             // Save state
             StateManager.saveState(numCorrect: numCorrect, questionIndex: currentQuestionIndex)
             
@@ -198,6 +250,8 @@ class ViewController: UIViewController, QuizProtocol, UITableViewDataSource, UIT
             // Restart
             numCorrect = 0
             currentQuestionIndex = 0
+            
+            // Display first question
             displayQuestion()
             
         }
